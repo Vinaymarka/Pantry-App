@@ -51,29 +51,29 @@ export default function Home() {
 
   const addItem = async (item) => {
     // console.log(item)
-    const docref = doc(collection(firestore, 'pantry'), item)
-    const docSnap = await getDoc(docref)
+    const docRef = doc(collection(firestore, 'pantry'), item)
+    const docSnap = await getDoc(docRef)
     if (docSnap.exists()) { 
       const {count} = docSnap.data()
-      await setDoc(docref, {count:count+1})
+      await setDoc(docRef, {count:count+1},{merge:true})
       
     }else{
-      await setDoc(docref, {count:1})
+      await setDoc(docRef, {count:1})
       
     }
     await updatePantry()
   }
  
   const removeItem = async (item) => { 
-    const docref = doc(collection(firestore, 'pantry'), item)
-    const docSnap = await getDoc(docref)
+    const docRef = doc(collection(firestore, 'pantry'), item)
+    const docSnap = await getDoc(docRef)
     if(docSnap.exists()){ 
       const {count} =  docSnap.data()
       if(count==1){
-        await deleteDoc(docref)
+        await deleteDoc(docRef)
       }
       else{
-        await setDoc(docref, {count:count-1})
+        await setDoc(docRef, {count:count-1})
       }
     }
     await updatePantry()
@@ -106,7 +106,7 @@ export default function Home() {
     
       <Box width="800px" height="100px " bgcolor={'#ADD8E6'} display={'flex'} justifyContent={'center'} alignItems={'center'}>
         <Typography variant={'h2'} color={'#333'} textAlign={'center'} >
-          Panry Items
+          Pantry Items
         </Typography>
         
       </Box>
